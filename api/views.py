@@ -3,28 +3,27 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from django.contrib.auth.models import User
-from .models import Post, Category, Tag, UserProfile
+from .models import Post, Category, Tag
 from .serializers import (
-    UserRegistrationSerializer, PostSerializer, PostListSerializer,
-    CategorySerializer, TagSerializer, UserProfileSerializer
+    UserSerializer, PostSerializer, PostListSerializer,
+    CategorySerializer, TagSerializer
 )
 from .permissions import (
     IsAdminOrReadOnly, IsOwnerOrAdminOrReadOnly, 
     CanCreatePost, CanViewPublishedOnly
 )
 
-class UserRegistrationView(generics.CreateAPIView):
+class UserAPI(viewsets.ModelViewSet):
     queryset = User.objects.all()
-    serializer_class = UserRegistrationSerializer
-    permission_classes = [permissions.AllowAny]
-
-class UserProfileView(generics.RetrieveUpdateAPIView):
-    serializer_class = UserProfileSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = UserSerializer
     
-    def get_object(self):
-        return self.request.user.userprofile
-
+    def get_permissions(self):
+        if self.action in ['update', 'partial_update', 'destroy']:
+            permission_classes = [permissions.IsAuthenticated]
+        else:
+            permission_classes = [permissions.AllowAny]
+        return [permission() for permission in permission_classes]
+   
 class PostViewSet(viewsets.ModelViewSet):
     serializer_class = PostListSerializer
     permission_classes = [permissions.IsAuthenticated, CanCreatePost]
