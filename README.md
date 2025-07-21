@@ -71,35 +71,28 @@ A scalable Django REST API backend for a multi-user blog platform with role-base
    pip install -r requirements.txt
    ```
 
-4. **Configure environment variables (optional)**
-   ```bash
-   # Create .env file for production settings
-   cp .env.example .env
-   # Edit .env with your settings
-   ```
-
-5. **Run database migrations**
+4. **Run database migrations**
    ```bash
    python manage.py makemigrations
    python manage.py migrate
    ```
 
-6. **Create superuser (admin)**
+5. **Create superuser (admin)**
    ```bash
    python manage.py createsuperuser
    ```
 
-7. **Populate sample categories and tags**
+6. **Populate sample categories and tags**
    ```bash
    python manage.py populate_categories_tags
    ```
 
-8. **Run development server**
+7. **Run development server**
    ```bash
    python manage.py runserver
    ```
 
-9. **Access the application**
+8. **Access the application**
    - API Base URL: `http://localhost:8000/api/`
    - Swagger Documentation: `http://localhost:8000/swagger/`
    - ReDoc Documentation: `http://localhost:8000/redoc/`
